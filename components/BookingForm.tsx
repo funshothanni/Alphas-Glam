@@ -22,15 +22,13 @@ export default function BookingForm() {
         setLoading(true);
         setError("");
 
-        const { data: existingCustomer, error: lookupError } = await supabase
+        // Check if customer already exists
+        let customerId: number;
+        const { data: existingCustomer } = await supabase
             .from("customers")
             .select("id")
             .eq("email", email)
             .maybeSingle();
-
-        console.log("Lookup result:", existingCustomer, lookupError);
-
-        let customerId: number;
 
         if (existingCustomer) {
             customerId = existingCustomer.id;
@@ -41,8 +39,6 @@ export default function BookingForm() {
                 .select("id")
                 .single();
 
-            console.log("New customer:", newCustomer, customerError);
-
             if (customerError || !newCustomer) {
                 setError("Something went wrong. Please try again.");
                 setLoading(false);
@@ -52,17 +48,23 @@ export default function BookingForm() {
             customerId = newCustomer.id;
         }
 
+        // Create booking
         const { error: bookingError } = await supabase
             .from("bookings")
             .insert({ customer_id: customerId, service, date, time });
-
-        console.log("Booking error:", bookingError);
 
         if (bookingError) {
             setError("Something went wrong. Please try again.");
             setLoading(false);
             return;
         }
+
+        // Notify admin by email
+        await fetch("/api/notify-admin", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ customerName: name, customerEmail: email, service, date, time }),
+        });
 
         setLoading(false);
         setSubmitted(true);
@@ -117,9 +119,7 @@ export default function BookingForm() {
                         />
 
                         <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
-                                Date
-                            </label>
+                            <label className="mb-2 block text-sm font-medium text-gray-700">Date</label>
                             <input
                                 type="date"
                                 value={date}
@@ -129,9 +129,7 @@ export default function BookingForm() {
                         </div>
 
                         <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
-                                Time
-                            </label>
+                            <label className="mb-2 block text-sm font-medium text-gray-700">Time</label>
                             <input
                                 type="time"
                                 value={time}

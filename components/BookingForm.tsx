@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function BookingForm() {
     const [name, setName] = useState("");
@@ -10,29 +11,61 @@ export default function BookingForm() {
     const [service, setService] = useState("");
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    function handleSubmit() {
+    async function handleSubmit() {
         if (!name || !email || !service || !date || !time) {
             setError("Please fill in all fields.");
             return;
         }
 
-        const newBooking = {
-            id: Date.now(),
-            customer: name,
-            email,
-            service,
-            date,
-            time,
-            status: "Pending",
-        };
-
-        const existing = JSON.parse(localStorage.getItem("bookings") || "[]");
-        localStorage.setItem("bookings", JSON.stringify([...existing, newBooking]));
-
+        setLoading(true);
         setError("");
-        setSubmitted(true);
 
+        const { data: existingCustomer, error: lookupError } = await supabase
+            .from("customers")
+            .select("id")
+            .eq("email", email)
+            .maybeSingle();
+
+        console.log("Lookup result:", existingCustomer, lookupError);
+
+        let customerId: number;
+
+        if (existingCustomer) {
+            customerId = existingCustomer.id;
+        } else {
+            const { data: newCustomer, error: customerError } = await supabase
+                .from("customers")
+                .insert({ name, email })
+                .select("id")
+                .single();
+
+            console.log("New customer:", newCustomer, customerError);
+
+            if (customerError || !newCustomer) {
+                setError("Something went wrong. Please try again.");
+                setLoading(false);
+                return;
+            }
+
+            customerId = newCustomer.id;
+        }
+
+        const { error: bookingError } = await supabase
+            .from("bookings")
+            .insert({ customer_id: customerId, service, date, time });
+
+        console.log("Booking error:", bookingError);
+
+        if (bookingError) {
+            setError("Something went wrong. Please try again.");
+            setLoading(false);
+            return;
+        }
+
+        setLoading(false);
+        setSubmitted(true);
         setName("");
         setEmail("");
         setService("");
@@ -120,9 +153,10 @@ export default function BookingForm() {
                         <button
                             type="button"
                             onClick={handleSubmit}
-                            className="block w-full rounded-xl bg-pink-600 px-6 py-4 text-lg font-medium text-white transition hover:bg-pink-700"
+                            disabled={loading}
+                            className="block w-full cursor-pointer rounded-xl bg-pink-600 px-6 py-4 text-lg font-medium text-white transition hover:bg-pink-700 disabled:opacity-60"
                         >
-                            Submit Booking
+                            {loading ? "Submitting..." : "Submit Booking"}
                         </button>
                     </div>
                 )}

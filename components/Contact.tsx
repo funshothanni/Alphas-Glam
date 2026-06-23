@@ -7,9 +7,24 @@ export default function Contact() {
                 </h2>
 
                 <div className="mt-8 space-y-4 text-gray-700">
-                    <p>Email: ---@---.com</p>
-                    <p>Phone: (204) -----</p>
-                    <p>Instagram: @dorcasbeautystudio</p>
+                    {/*<p>*/}
+                    {/*    Email:{" "}*/}
+                    {/*    <a href="mailto:---@---.com" className="text-pink-600 hover:underline">*/}
+                    {/*        ---@---.com*/}
+                    {/*    </a>*/}
+                    {/*</p>*/}
+                    {/*<p>*/}
+                    {/*    Phone:{" "}*/}
+                    {/*    <a href="tel:+12041234567" className="text-pink-600 hover:underline">*/}
+                    {/*        (204) 123-4567*/}
+                    {/*    </a>*/}
+                    {/*</p>*/}
+                    <p>
+                        Instagram:{" "}
+                        <a href="https://www.instagram.com/alphas.glam" target="_blank" rel="noopener noreferrer" className="text-pink-600 hover:underline">
+                            @alphas.glam
+                        </a>
+                    </p>
                 </div>
             </div>
         </section>

@@ -1,36 +1,48 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 type Booking = {
     id: number;
-    customer: string;
-    email: string;
     service: string;
     date: string;
     time: string;
-    status: "Pending" | "Confirmed" | "Cancelled";
+    status: string;
+    customers: {
+        name: string;
+        email: string;
+    };
 };
 
-const ADMIN_PASSWORD = "alphasglam2024";
+const ADMIN_PASSWORD = "adekunlegold";
 
 export default function AdminPage() {
     const [authenticated, setAuthenticated] = useState(false);
     const [passwordInput, setPasswordInput] = useState("");
     const [loginError, setLoginError] = useState("");
     const [bookings, setBookings] = useState<Booking[]>([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const session = localStorage.getItem("admin_session");
         if (session === "true") {
             setAuthenticated(true);
-            loadBookings();
+            fetchBookings();
         }
     }, []);
 
-    function loadBookings() {
-        const stored = JSON.parse(localStorage.getItem("bookings") || "[]");
-        setBookings(stored);
+    async function fetchBookings() {
+        setLoading(true);
+        const { data, error } = await supabase
+            .from("bookings")
+            .select("*, customers(name, email)")
+            .order("created_at", { ascending: false });
+
+        if (!error && data) {
+            setBookings(data);
+        }
+        setLoading(false);
     }
 
     function handleLogin() {
@@ -38,7 +50,7 @@ export default function AdminPage() {
             localStorage.setItem("admin_session", "true");
             setAuthenticated(true);
             setLoginError("");
-            loadBookings();
+            fetchBookings();
         } else {
             setLoginError("Incorrect password. Please try again.");
         }
@@ -51,18 +63,28 @@ export default function AdminPage() {
         setBookings([]);
     }
 
-    function updateStatus(id: number, status: Booking["status"]) {
-        const updated = bookings.map((b) =>
-            b.id === id ? { ...b, status } : b
-        );
-        setBookings(updated);
-        localStorage.setItem("bookings", JSON.stringify(updated));
+    async function updateStatus(id: number, status: string) {
+        const { error } = await supabase
+            .from("bookings")
+            .update({ status })
+            .eq("id", id);
+
+        if (!error) {
+            setBookings((prev) =>
+                prev.map((b) => (b.id === id ? { ...b, status } : b))
+            );
+        }
     }
 
-    function deleteBooking(id: number) {
-        const updated = bookings.filter((b) => b.id !== id);
-        setBookings(updated);
-        localStorage.setItem("bookings", JSON.stringify(updated));
+    async function deleteBooking(id: number) {
+        const { error } = await supabase
+            .from("bookings")
+            .delete()
+            .eq("id", id);
+
+        if (!error) {
+            setBookings((prev) => prev.filter((b) => b.id !== id));
+        }
     }
 
     const pending = bookings.filter((b) => b.status === "Pending").length;
@@ -140,7 +162,11 @@ export default function AdminPage() {
                     </div>
                 </div>
 
-                {bookings.length === 0 ? (
+                {loading ? (
+                    <div className="mt-20 text-center text-gray-400">
+                        <p className="text-xl">Loading bookings...</p>
+                    </div>
+                ) : bookings.length === 0 ? (
                     <div className="mt-20 text-center text-gray-400">
                         <p className="text-2xl">No bookings yet.</p>
                         <p className="mt-2 text-sm">Submitted bookings from clients will appear here.</p>
@@ -155,9 +181,9 @@ export default function AdminPage() {
                                 <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
                                     <div>
                                         <h2 className="text-2xl font-bold text-gray-800">
-                                            {booking.customer}
+                                            {booking.customers.name}
                                         </h2>
-                                        <p className="mt-1 text-sm text-gray-400">{booking.email}</p>
+                                        <p className="mt-1 text-sm text-gray-400">{booking.customers.email}</p>
                                         <p className="mt-2 text-lg text-pink-600">{booking.service}</p>
                                         <p className="mt-4 text-gray-500">
                                             {booking.date} • {booking.time}

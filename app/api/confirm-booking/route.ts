@@ -31,12 +31,10 @@ export async function POST(req: NextRequest) {
                 <div style="margin-top: 24px; padding: 16px; background: #fdf2f8; border-radius: 8px;">
                     <p style="margin: 0; font-weight: bold; color: #be185d;">Before your appointment:</p>
                     <ul style="margin-top: 8px; color: #555;">
-                        <li>A $20 non-refundable deposit is required to secure your appointment.</li>
                         <li>Please arrive with a clean, makeup-free face.</li>
                         <li>Let us know of any allergies or skin sensitivities beforehand.</li>
                     </ul>
                 </div>
-                <p style="margin-top: 24px; color: #555;">Send your deposit via Interac e-Transfer to <strong>adekunledorcas2019@gmail.com</strong> and include proof of payment.</p>
                 <p style="color: #555;">We can't wait to glam you up! 💄</p>
                 <p style="color: #be185d; font-weight: bold;">— Alpha's Glam</p>
             </div>

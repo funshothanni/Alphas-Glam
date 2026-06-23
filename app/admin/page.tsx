@@ -133,21 +133,18 @@ export default function AdminPage() {
     return (
         <section className="min-h-screen bg-pink-50 px-6 py-20">
             <div className="mx-auto max-w-6xl">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <p className="text-sm uppercase tracking-[0.2em] text-pink-500">Admin Dashboard</p>
                         <h1 className="mt-2 text-5xl font-bold text-pink-700">Bookings</h1>
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-wrap items-center gap-3">
                         <div className="rounded-full bg-pink-600 px-6 py-3 text-white">{bookings.length} Total</div>
                         {pending > 0 && (
                             <div className="rounded-full bg-yellow-400 px-6 py-3 text-white">{pending} Pending</div>
                         )}
-                        <button
-                            onClick={handleLogout}
-                            className="rounded-full border border-pink-200 px-6 py-3 text-sm text-pink-600 transition hover:bg-pink-100"
-                        >
+                        <button onClick={handleLogout} className="rounded-full border border-pink-200 px-6 py-3 text-sm text-pink-600 transition hover:bg-pink-100">
                             Log Out
                         </button>
                     </div>

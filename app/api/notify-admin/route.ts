@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
                         <td style="padding: 10px; background: #fdf2f8;">${time}</td>
                     </tr>
                 </table>
-                <p style="margin-top: 24px;">Log in to your <a href="https://alphas-glam.vercel.app/admin" style="color: #be185d;">admin dashboard</a> to confirm or cancel this booking.</p>
+                <p style="margin-top: 24px;">Log in to your <a href="https://alphasglam.com/admin" style="color: #be185d;">admin dashboard</a> to confirm or cancel this booking.</p>
             </div>
         `,
     });

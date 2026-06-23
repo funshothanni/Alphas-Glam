@@ -29,11 +29,6 @@ export default function ServiceCard({
             <p className="mt-4 text-gray-500">
                 {description}
             </p>
-
-
-            <button className="mt-8 rounded-full bg-pink-600 px-6 py-3 text-white transition hover:bg-pink-700">
-                Book Now
-            </button>
         </div>
     );
 }

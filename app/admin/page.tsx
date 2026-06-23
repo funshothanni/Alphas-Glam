@@ -12,7 +12,7 @@ type Booking = {
     status: "Pending" | "Confirmed" | "Cancelled";
 };
 
-const ADMIN_PASSWORD = "alphasglam2024"; // change this to whatever you want
+const ADMIN_PASSWORD = "alphasglam2024";
 
 export default function AdminPage() {
     const [authenticated, setAuthenticated] = useState(false);
@@ -99,7 +99,7 @@ export default function AdminPage() {
                         <button
                             type="button"
                             onClick={handleLogin}
-                            className="block w-full rounded-xl bg-pink-600 px-6 py-4 text-lg font-medium text-white transition hover:bg-pink-700"
+                            className="block w-full cursor-pointer rounded-xl bg-pink-600 px-6 py-4 text-lg font-medium text-white transition hover:bg-pink-700"
                         >
                             Log In
                         </button>

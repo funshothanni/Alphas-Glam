@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
 
     const { error } = await resend.emails.send({
         from: "Alpha's Glam <bookings@alphasglam.com>",
-        to: "obafunshot@gmail.com", // admin email
+        to: "funshothanni@gmail.com", // admin email
         subject: "New Booking Request",
         html: `
             <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">

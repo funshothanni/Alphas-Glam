@@ -139,19 +139,6 @@ The custom domain is managed through **Porkbun** and connected to Vercel using D
 
 ---
 
-## Future Improvements
-
-- Secure admin authentication
-- Booking approval workflow
-- Calendar integration
-- Online payments
-- Database persistence
-- Appointment availability checking
-- Customer booking history
-- SMS reminders
-
----
-
 ## Screenshots
 
 

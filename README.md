@@ -141,8 +141,13 @@ The custom domain is managed through **Porkbun** and connected to Vercel using D
 
 ## Screenshots
 
+| Home | Services |
+|------|----------|
+| ![](./screenshots/home.png) | ![](./screenshots/services.png) |
 
----
+| Booking | Terms & Conditions         |
+|---------|----------------------------|
+| ![](./screenshots/booking.png) | ![](./screenshots/t&c.png) |---
 
 ## Author
 

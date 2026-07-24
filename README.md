@@ -48,8 +48,8 @@ https://alphasglam.com
 app/
 ├── admin/
 ├── api/
-│   ├── send-confirmation/
-│   └── send-notification/
+│   ├── confirm-booking/
+│   └── notify-admin/
 ├── policy/
 ├── services/
 └── page.tsx

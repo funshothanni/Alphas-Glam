@@ -104,6 +104,8 @@ http://localhost:3000
 Create a `.env.local` file.
 
 ```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 RESEND_API_KEY=your_resend_api_key
 ```
 
@@ -159,4 +161,4 @@ GitHub: https://github.com/funshothanni
 
 ## License
 
-This project is for portfolio and educational purposes.
+This project is for portfolio and educational purposes. All rights reserved.

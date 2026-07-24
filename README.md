@@ -153,7 +153,7 @@ The custom domain is managed through **Porkbun** and connected to Vercel using D
 
 **Obafunsho Thanni**
 
-GitHub: https://github.com/YOUR_USERNAME
+GitHub: https://github.com/funshothanni
 
 ---
 

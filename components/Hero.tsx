@@ -1,6 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { Cormorant_Garamond } from "next/font/google";
+
+const cormorant = Cormorant_Garamond({
+    subsets: ["latin"],
+    weight: ["400", "500", "600"],
+    style: ["italic"],
+});
+
 export default function Hero() {
     return (
         <section className="bg-[#f4ede8]">
@@ -20,11 +28,13 @@ export default function Hero() {
                             yours.
                         </h1>
 
-                        <p className="mt-8 max-w-md text-base leading-7 text-[#665b57] sm:text-lg">
-                            Elevated makeup experiences designed to enhance your natural beauty
-                            and make every moment feel unforgettable.
+                        <p
+                            className={`${cormorant.className} mt-6 max-w-md text-2xl font-medium italic leading-8 text-[#665b57]`}
+                        >
+                            Elevated makeup experiences designed to enhance
+                            your natural beauty and make every moment feel
+                            unforgettable.
                         </p>
-
                         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                             <Link
                                 href="/services"

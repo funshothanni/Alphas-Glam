@@ -7,7 +7,6 @@ export default function ServicesPage() {
         <>
             <NavBar />
             <Services />
-            <BookingForm />
         </>
     );
 }

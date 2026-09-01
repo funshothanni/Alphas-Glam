@@ -37,7 +37,7 @@ export default function Hero() {
                         </p>
                         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                             <Link
-                                href="/services"
+                                href="/book-appointment"
                                 className="bg-[#7d4f4a] px-8 py-4 text-center text-sm uppercase tracking-[0.18em] text-white transition hover:bg-[#633e3a]"
                             >
                                 Book Your Glam

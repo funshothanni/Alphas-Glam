@@ -22,39 +22,28 @@ export default function Contact() {
 
                 {/* Contact content */}
                 <div className="absolute inset-0 flex items-center justify-center px-6 text-center">
-                    <div
-                        className="max-w-2xl"
-                        style={{ color: "#f4ede8" }}
-                    >
-                        {/* Small heading */}
-                        <p className="mb-8 text-xs font-semibold uppercase tracking-[0.4em] sm:text-sm">
+                    <div className="w-full max-w-2xl" style={{ color: "#f4ede8" }}>
+
+                        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] sm:text-xs">
                             Get in Touch
                         </p>
 
-                        {/* Main heading */}
-                        <h2 className="font-serif text-5xl font-bold italic leading-[1.15] drop-shadow-lg sm:text-6xl md:text-7xl">
+                        <h2 className="font-serif text-5xl font-bold leading-none sm:text-6xl md:text-7xl">
                             Contact Us
                         </h2>
 
-                        {/* Description */}
-                        <p className="mx-auto mt-10 max-w-xl text-base font-medium leading-8 drop-shadow-md sm:text-lg sm:leading-9 md:text-xl md:leading-10">
+                        <p className="mx-auto mt-5 max-w-lg text-sm font-medium leading-6 sm:text-base sm:leading-7 md:text-lg">
                             Have a question about services, availability, or your
-                            appointment?
                             <br className="hidden sm:block" />
-                            <span className="inline-block mt-2">
-                Reach out and we&apos;ll be happy to help.
-            </span>
+                            appointment?
                         </p>
 
-                        {/* Decorative line */}
-                        <div
-                            className="mx-auto my-10 h-px w-20"
-                            style={{ backgroundColor: "#f4ede8" }}
-                        />
+                        <p className="mt-2 text-sm font-medium sm:text-base md:text-lg">
+                            Reach out and we&apos;ll be happy to help.
+                        </p>
 
-                        {/* Instagram */}
-                        <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-5">
-            <span className="text-xs font-bold uppercase tracking-[0.25em] sm:text-sm">
+                        <div className="mt-4 flex items-center justify-center gap-3">
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] sm:text-xs">
                 Instagram
             </span>
 
@@ -62,7 +51,7 @@ export default function Contact() {
                                 href="https://www.instagram.com/alphas.glam"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="font-serif text-xl font-semibold italic underline-offset-4 transition duration-300 hover:underline sm:text-2xl"
+                                className="font-serif text-base font-semibold italic hover:underline sm:text-lg"
                                 style={{ color: "#f4ede8" }}
                             >
                                 @alphas.glam
@@ -70,7 +59,6 @@ export default function Contact() {
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
     );

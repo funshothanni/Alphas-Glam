@@ -1,4 +1,10 @@
 import Link from "next/link";
+import { Playfair_Display } from "next/font/google";
+
+const playfair = Playfair_Display({
+    subsets: ["latin"],
+    weight: ["400", "500", "600"],
+});
 
 export default function NavBar() {
     return (
@@ -8,13 +14,14 @@ export default function NavBar() {
                 {/* LOGO */}
                 <Link
                     href="/"
-                    className="font-serif text-xl font-semibold text-[#2f2421] md:text-2xl"
+                    className={`${playfair.className} text-2xl font-semibold text-[#2f2421]`}
                 >
                     Alpha&apos;s Glam
                 </Link>
 
-                {/* NAVIGATION */}
-                <div className="flex gap-4 text-sm text-[#665b57] sm:gap-7">
+                <div
+                    className={`${playfair.className} flex items-center gap-4 text-base font-medium text-[#665b57] sm:gap-7`}
+                >
                     <Link
                         href="/services"
                         className="transition hover:text-[#7d4f4a]"
@@ -34,6 +41,13 @@ export default function NavBar() {
                         className="transition hover:text-[#7d4f4a]"
                     >
                         Terms & Conditions
+                    </Link>
+
+                    <Link
+                        href="/#contact"
+                        className="bg-[#8f554d] px-3 py-1.5 text-[#f4ede8] transition hover:bg-[#7d4f4a]"
+                    >
+                        Contact Us
                     </Link>
                 </div>
 

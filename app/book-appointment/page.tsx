@@ -1,6 +1,7 @@
 import Image from "next/image";
 import BookingForm from "@/components/BookingForm";
 import NavBar from "@/components/NavBar";
+import Link from "next/link";
 
 export default function BookAppointmentPage() {
     return (
@@ -24,8 +25,16 @@ export default function BookAppointmentPage() {
                             </h1>
 
                             <p className="mt-6 max-w-xl leading-7 text-[#665b57]">
-                                Tell us a little about your desired look, preferred date,
-                                and service. We&apos;ll follow up to confirm availability.
+                                Tell us about your desired look and preferred date.
+                                We&apos;ll follow up to confirm availability.
+                                Please remember to read the{" "}
+                                <Link
+                                    href="/policy"
+                                    className="font-medium text-[#8f554d] underline underline-offset-4 transition hover:text-[#6f403a]"
+                                >
+                                    terms and conditions
+                                </Link>{" "}
+                                page before requesting your booking.
                             </p>
                         </div>
 

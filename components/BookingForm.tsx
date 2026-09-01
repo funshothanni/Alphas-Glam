@@ -9,13 +9,15 @@ export default function BookingForm() {
     const [time, setTime] = useState("");
     const [date, setDate] = useState("");
     const [service, setService] = useState("");
+    const [notes, setNotes] = useState("");
+
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
     async function handleSubmit() {
         if (!name || !email || !service || !date || !time) {
-            setError("Please fill in all fields.");
+            setError("Please fill in all required fields.");
             return;
         }
 
@@ -24,6 +26,7 @@ export default function BookingForm() {
 
         // Check if customer already exists
         let customerId: number;
+
         const { data: existingCustomer } = await supabase
             .from("customers")
             .select("id")
@@ -35,7 +38,10 @@ export default function BookingForm() {
         } else {
             const { data: newCustomer, error: customerError } = await supabase
                 .from("customers")
-                .insert({ name, email })
+                .insert({
+                    name,
+                    email,
+                })
                 .select("id")
                 .single();
 
@@ -51,9 +57,17 @@ export default function BookingForm() {
         // Create booking
         const { error: bookingError } = await supabase
             .from("bookings")
-            .insert({ customer_id: customerId, service, date, time });
+            .insert({
+                customer_id: customerId,
+                service,
+                date,
+                time,
+                notes: notes || null,
+            });
 
         if (bookingError) {
+            console.error("Booking error:", bookingError);
+
             setError("Something went wrong. Please try again.");
             setLoading(false);
             return;
@@ -62,17 +76,29 @@ export default function BookingForm() {
         // Notify admin by email
         await fetch("/api/notify-admin", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ customerName: name, customerEmail: email, service, date, time }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                customerName: name,
+                customerEmail: email,
+                service,
+                date,
+                time,
+                notes,
+            }),
         });
 
         setLoading(false);
         setSubmitted(true);
+
+        // Reset form
         setName("");
         setEmail("");
         setService("");
         setDate("");
         setTime("");
+        setNotes("");
 
         setTimeout(() => setSubmitted(false), 3000);
     }
@@ -166,6 +192,7 @@ export default function BookingForm() {
                             </div>
                         </div>
 
+
                         {/* SERVICE */}
                         <div>
                             <label className="mb-2 block text-sm text-[#665b57]">
@@ -180,26 +207,60 @@ export default function BookingForm() {
                                 }}
                                 className="block w-full border border-[#cbb7ae] bg-transparent px-4 py-4 text-[#2f2421] outline-none transition focus:border-[#7d4f4a]"
                             >
-                                <option value="">Select a service</option>
+                                <option value="">
+                                    Select a service
+                                </option>
+
                                 <option value="Soft Glam Makeup">
                                     Soft Glam — $100
                                 </option>
+
                                 <option value="Full Glam Makeup">
                                     Full Glam — $120
                                 </option>
+
                                 <option value="Bridal Glam Trial">
                                     Bridal Glam Trial — $150
                                 </option>
+
                                 <option value="Bridal Glam In Studio">
                                     Bridal Glam + In Studio — $400
                                 </option>
+
                                 <option value="Bridal Glam Home Service">
                                     Bridal Glam + Home Service — $450
                                 </option>
+
                                 <option value="Bridal Glam Home Service + Trial">
                                     Bridal Glam + Home Service + Trial — $500
                                 </option>
                             </select>
+                        </div>
+
+                        {/* ADDITIONAL NOTES */}
+                        <div>
+                            <label
+                                htmlFor="notes"
+                                className="mb-2 block text-sm text-[#665b57]"
+                            >
+                                Additional Notes{" "}
+                                <span className="text-[#9b918d]">
+                                    (Optional)
+                                </span>
+                            </label>
+
+                            <textarea
+                                id="notes"
+                                name="notes"
+                                rows={4}
+                                value={notes}
+                                onChange={(e) => {
+                                    setNotes(e.target.value);
+                                    setError("");
+                                }}
+                                placeholder="Tell us anything else you'd like us to know about your desired look or appointment..."
+                                className="w-full resize-none border border-[#cdb8ae] bg-transparent px-4 py-4 text-[#2f2421] outline-none transition placeholder:text-[#9b918d] focus:border-[#8f554d]"
+                            />
                         </div>
 
                         {/* SUBMIT */}

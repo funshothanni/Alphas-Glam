@@ -68,8 +68,8 @@ export default function Services() {
                         Alpha&apos;s Glam
                     </p>
 
-                    <h1 className="font-serif text-5xl text-[#2f2421] sm:text-6xl md:text-7xl">
-                        Services & Pricing
+                    <h1 className="font-serif text-5xl font-semibold leading-none text-[#2f2421] sm:text-6xl">
+                        Services & Prices
                     </h1>
 
                     <p className="mt-6 max-w-xl leading-7 text-[#665b57]">

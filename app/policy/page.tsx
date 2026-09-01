@@ -120,8 +120,10 @@ export default function PolicyPage() {
                             Alpha&apos;s Glam
                         </p>
 
-                        <h1 className="font-serif text-5xl font-semibold leading-tight text-[#2f2421] sm:text-6xl md:text-7xl">
-                            Terms & Conditions
+                        <h1 className="font-serif text-5xl font-semibold leading-none text-[#2f2421] sm:text-6xl">
+                            Terms &
+                            <br />
+                            Conditions
                         </h1>
 
                         <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-[#665b57] sm:text-lg">

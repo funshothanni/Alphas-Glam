@@ -43,12 +43,13 @@ export default function Hero() {
                     </div>
                 </div>
 
-                <div className="relative min-h-[520px] lg:min-h-full">
+                <div className="relative min-h-[420px] lg:h-[620px] lg:self-center">
                     <Image
-                        src="/images/hero-makeup.jpg"
+                        src="/screenshots/hero.png"
                         alt="Alpha's Glam makeup artistry"
                         fill
                         priority
+                        sizes="(max-width: 1024px) 100vw, 50vw"
                         className="object-cover"
                     />
 

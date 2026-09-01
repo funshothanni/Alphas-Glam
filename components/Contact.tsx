@@ -1,6 +1,6 @@
 export default function Contact() {
     return (
-        <section id="contact" className="bg-pink-50 px-6 py-20">
+        <section id="contact" className="bg-[#f4ede8]">
             <div className="mx-auto max-w-4xl">
                 <h2 className="text-4xl font-bold text-pink-700">
                     Contact Us

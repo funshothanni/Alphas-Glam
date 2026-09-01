@@ -1,44 +1,64 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Hero() {
     return (
-        <section className="flex min-h-[80vh] items-center justify-center bg-pink-50 px-6">
-            <div className="mx-auto max-w-3xl text-center">
-                <p className="mb-4 text-sm uppercase tracking-[0.3em] text-pink-500">
-                    Luxury Beauty Experience
-                </p>
+        <section className="bg-[#f4ede8]">
+            <div className="mx-auto grid min-h-[88vh] max-w-7xl lg:grid-cols-2">
 
-                <h1 className="text-4xl font-bold leading-tight text-pink-700 sm:text-5xl md:text-6xl">
-                   Alpha&#39;s Glam
-                </h1>
+                <div className="flex items-center px-6 py-20 sm:px-10 lg:px-16">
+                    <div className="max-w-xl">
+                        <p className="mb-5 text-xs uppercase tracking-[0.35em] text-[#9b6f68]">
+                            Luxury Makeup Artistry
+                        </p>
 
-                <p className="mt-6 text-lg text-gray-600">
-                    Thank you for choosing Alpha’s Glam. Please review our terms & conditions
-                    before booking an appointment.
-                </p>
+                        <h1 className="font-serif text-5xl leading-[0.95] text-[#2f2421] sm:text-6xl md:text-7xl lg:text-8xl">
+                            Beauty,
+                            <br />
+                            beautifully
+                            <br />
+                            yours.
+                        </h1>
 
-                <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                    <Link
-                        href="/services"
-                        className="w-full rounded-full bg-pink-600 px-8 py-4 text-center text-white transition hover:bg-pink-700 sm:w-auto"
-                    >
-                        Services
-                    </Link>
+                        <p className="mt-8 max-w-md text-base leading-7 text-[#665b57] sm:text-lg">
+                            Elevated makeup experiences designed to enhance your natural beauty
+                            and make every moment feel unforgettable.
+                        </p>
 
-                    <Link
-                        href="/policy"
-                        className="w-full rounded-full border border-pink-300 px-8 py-4 text-center text-pink-700 transition hover:bg-pink-100 sm:w-auto"
-                    >
-                        Terms & Conditions
-                    </Link>
+                        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                            <Link
+                                href="/services"
+                                className="bg-[#7d4f4a] px-8 py-4 text-center text-sm uppercase tracking-[0.18em] text-white transition hover:bg-[#633e3a]"
+                            >
+                                Book Your Glam
+                            </Link>
 
-                    <Link
-                        href="#contact"
-                        className="w-full rounded-full border border-pink-300 px-8 py-4 text-center text-pink-700 transition hover:bg-pink-100 sm:w-auto"
-                    >
-                        Contact Us
-                    </Link>
+                            <Link
+                                href="/services"
+                                className="border border-[#7d4f4a] px-8 py-4 text-center text-sm uppercase tracking-[0.18em] text-[#7d4f4a] transition hover:bg-[#7d4f4a] hover:text-white"
+                            >
+                                Explore Services
+                            </Link>
+                        </div>
+                    </div>
                 </div>
+
+                <div className="relative min-h-[520px] lg:min-h-full">
+                    <Image
+                        src="/images/hero-makeup.jpg"
+                        alt="Alpha's Glam makeup artistry"
+                        fill
+                        priority
+                        className="object-cover"
+                    />
+
+                    <div className="absolute inset-0 bg-black/10" />
+
+                    <p className="absolute bottom-8 left-8 text-xs uppercase tracking-[0.3em] text-white">
+                        Alpha&apos;s Glam
+                    </p>
+                </div>
+
             </div>
         </section>
     );

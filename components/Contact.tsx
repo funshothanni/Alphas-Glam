@@ -28,12 +28,12 @@ export default function Contact() {
                             Get in Touch
                         </p>
 
-                        <h2 className="font-serif text-5xl font-bold leading-none sm:text-6xl md:text-7xl">
+                        <h1 className="font-serif text-5xl font-semibold leading-none text-[#f4ede8] sm:text-6xl">
                             Contact Us
-                        </h2>
+                        </h1>
 
                         <p className="mx-auto mt-5 max-w-lg text-sm font-medium leading-6 sm:text-base sm:leading-7 md:text-lg">
-                            Have a question about services, availability, or your
+                            Have any questions about our services, availability, or your
                             <br className="hidden sm:block" />
                             appointment?
                         </p>

@@ -19,7 +19,7 @@ export default function BookAppointmentPage() {
                             </p>
 
                             <h1 className="font-serif text-5xl font-semibold leading-none text-[#2f2421] sm:text-6xl">
-                                Book an
+                                Request an
                                 <br />
                                 Appointment
                             </h1>

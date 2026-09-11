@@ -33,7 +33,7 @@ export default function NavBar() {
                         href="/book-appointment"
                         className="transition hover:text-[#7d4f4a]"
                     >
-                        Book Appointment
+                        Booking
                     </Link>
 
                     <Link

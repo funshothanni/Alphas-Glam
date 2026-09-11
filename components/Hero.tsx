@@ -21,11 +21,7 @@ export default function Hero() {
                         </p>
 
                         <h1 className="font-serif text-5xl leading-[0.95] text-[#2f2421] sm:text-6xl md:text-7xl lg:text-8xl">
-                            Beauty,
-                            <br />
-                            beautifully
-                            <br />
-                            yours.
+                            Alpha's Glam
                         </h1>
 
                         <p

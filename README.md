@@ -85,7 +85,8 @@ The custom domain is managed through **Porkbun** and connected to Vercel using D
 
 **Obafunsho Thanni**
 
-GitHub: https://github.com/funshothanni
+LinkedIn: https://www.linkedin.com/in/funshothanni/ \
+Email: [thannio@myumanitoba.ca](mailto:thannio@myumanitoba.ca)
 
 ---
 

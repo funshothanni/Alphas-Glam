@@ -1,10 +1,10 @@
 # Alpha's Glam 💄
 
-Alpha's Glam is a modern full-stack makeup booking website built with Next.js for a freelance makeup artist. Customers can browse services, submit appointment requests, and receive automated confirmation emails, while the business owner receives booking notifications.
+Alpha's Glam is a full stack makeup booking website built with Next.js for a freelance makeup artist. Customers can browse services, submit appointment requests, and receive automated confirmation emails, while the business owner receives booking notifications.
 
 The project is deployed on Vercel and uses Resend for transactional emails.
 
-**Live Demo:**
+**Live Website:**
 https://alphasglam.com
 ---
 
@@ -16,7 +16,6 @@ https://alphasglam.com
 - 📧 Automatic booking confirmation emails
 - 📬 Admin notification emails
 - 📋 Terms & Conditions page
-- 🌐 Custom domain support
 - ⚡ Fast deployment with Vercel
 
 ---
@@ -60,7 +59,7 @@ The application sends two transactional emails whenever a booking is submitted:
 - Requested service
 - Date and time
 
-Emails are powered by **Resend** using a verified custom domain.
+Emails are powered by **Resend**.
 
 ---
 
@@ -74,12 +73,12 @@ The custom domain is managed through **Porkbun** and connected to Vercel using D
 
 ## Screenshots
 
-| Home | Services |
-|------|----------|
-| ![](public/screenshots/home.png) | ![](public/screenshots/services.png) |
+| Home                             | Services                            |
+|----------------------------------|-------------------------------------|
+| ![](public/screenshots/home.png) | ![](public/screenshots/service.png) |
 
-| Booking | Terms & Conditions         |
-|---------|----------------------------|
+| Booking                             | Terms & Conditions              |
+|-------------------------------------|---------------------------------|
 | ![](public/screenshots/booking.png) | ![](public/screenshots/t&c.png) |---
 
 ## Author

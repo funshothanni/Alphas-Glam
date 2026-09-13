@@ -15,7 +15,6 @@ type Booking = {
     };
 };
 
-const ADMIN_PASSWORD = "adekunlegold";
 
 export default function AdminPage() {
     const [authenticated, setAuthenticated] = useState(false);
@@ -43,14 +42,29 @@ export default function AdminPage() {
         setLoading(false);
     }
 
-    function handleLogin() {
-        if (passwordInput === ADMIN_PASSWORD) {
+    async function handleLogin() {
+        setLoginError("");
+        try {
+            const response = await fetch("/api/admin-login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    password: passwordInput,
+                }),
+            });
+            const data = await response.json();
+            if (!response.ok || !data.success) {
+                setLoginError("Incorrect password. Please try again.");
+                return;
+            }
             localStorage.setItem("admin_session", "true");
             setAuthenticated(true);
-            setLoginError("");
+            setPasswordInput("");
             fetchBookings();
-        } else {
-            setLoginError("Incorrect password. Please try again.");
+        } catch {
+            setLoginError("Something went wrong. Please try again.");
         }
     }
 

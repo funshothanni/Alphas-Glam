@@ -15,8 +15,25 @@ export default function BookingForm() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
-    async function handleSubmit() {
-        if (!name || !email || !service || !date || !time) {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+
+        const submittedName = formData.get("name") as string;
+        const submittedEmail = formData.get("email") as string;
+        const submittedDate = formData.get("date") as string;
+        const submittedTime = formData.get("time") as string;
+        const submittedService = formData.get("service") as string;
+        const submittedNotes = formData.get("notes") as string;
+
+        if (
+            !submittedName ||
+            !submittedEmail ||
+            !submittedService ||
+            !submittedDate ||
+            !submittedTime
+        ) {
             setError("Please fill in all required fields.");
             return;
         }
@@ -30,7 +47,7 @@ export default function BookingForm() {
         const { data: existingCustomer } = await supabase
             .from("customers")
             .select("id")
-            .eq("email", email)
+            .eq("email", submittedEmail)
             .maybeSingle();
 
         if (existingCustomer) {
@@ -39,8 +56,8 @@ export default function BookingForm() {
             const { data: newCustomer, error: customerError } = await supabase
                 .from("customers")
                 .insert({
-                    name,
-                    email,
+                    name: submittedName,
+                    email: submittedEmail,
                 })
                 .select("id")
                 .single();
@@ -59,10 +76,10 @@ export default function BookingForm() {
             .from("bookings")
             .insert({
                 customer_id: customerId,
-                service,
-                date,
-                time,
-                notes: notes || null,
+                service: submittedService,
+                date: submittedDate,
+                time: submittedTime,
+                notes: submittedNotes || null,
             });
 
         if (bookingError) {
@@ -80,12 +97,12 @@ export default function BookingForm() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                customerName: name,
-                customerEmail: email,
-                service,
-                date,
-                time,
-                notes,
+                customerName: submittedName,
+                customerEmail: submittedEmail,
+                service: submittedService,
+                date: submittedDate,
+                time: submittedTime,
+                notes: submittedNotes,
             }),
         });
 
@@ -119,7 +136,7 @@ export default function BookingForm() {
                 )}
 
                 {!submitted && (
-                    <div className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
 
                         {/* NAME */}
                         <div>
@@ -129,6 +146,8 @@ export default function BookingForm() {
 
                             <input
                                 type="text"
+                                name="name"
+                                required
                                 placeholder="Your name"
                                 value={name}
                                 onChange={(e) => {
@@ -147,6 +166,8 @@ export default function BookingForm() {
 
                             <input
                                 type="email"
+                                name="email"
+                                required
                                 placeholder="Your email"
                                 value={email}
                                 onChange={(e) => {
@@ -166,6 +187,8 @@ export default function BookingForm() {
 
                                 <input
                                     type="date"
+                                    name="date"
+                                    required
                                     value={date}
                                     onChange={(e) => {
                                         setDate(e.target.value);
@@ -180,15 +203,37 @@ export default function BookingForm() {
                                     Preferred Time
                                 </label>
 
-                                <input
-                                    type="time"
+                                <select
+                                    name="time"
+                                    required
                                     value={time}
                                     onChange={(e) => {
                                         setTime(e.target.value);
                                         setError("");
                                     }}
                                     className="block w-full border border-[#cbb7ae] bg-transparent px-4 py-4 text-[#2f2421] outline-none transition focus:border-[#7d4f4a]"
-                                />
+                                >
+                                    <option value="">Select a time</option>
+                                    <option value="09:00">9:00 AM</option>
+                                    <option value="09:30">9:30 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                    <option value="10:30">10:30 AM</option>
+                                    <option value="11:00">11:00 AM</option>
+                                    <option value="11:30">11:30 AM</option>
+                                    <option value="12:00">12:00 PM</option>
+                                    <option value="12:30">12:30 PM</option>
+                                    <option value="13:00">1:00 PM</option>
+                                    <option value="13:30">1:30 PM</option>
+                                    <option value="14:00">2:00 PM</option>
+                                    <option value="14:30">2:30 PM</option>
+                                    <option value="15:00">3:00 PM</option>
+                                    <option value="15:30">3:30 PM</option>
+                                    <option value="16:00">4:00 PM</option>
+                                    <option value="16:30">4:30 PM</option>
+                                    <option value="17:00">5:00 PM</option>
+                                    <option value="17:30">5:30 PM</option>
+                                    <option value="18:00">6:00 PM</option>
+                                </select>
                             </div>
                         </div>
 
@@ -200,6 +245,8 @@ export default function BookingForm() {
                             </label>
 
                             <select
+                                name="service"
+                                required
                                 value={service}
                                 onChange={(e) => {
                                     setService(e.target.value);
@@ -237,7 +284,7 @@ export default function BookingForm() {
                             </select>
                         </div>
 
-                        {/* ADDITIONAL NOTES */}
+                        {/* NOTES */}
                         <div>
                             <label
                                 htmlFor="notes"
@@ -265,14 +312,13 @@ export default function BookingForm() {
 
                         {/* SUBMIT */}
                         <button
-                            type="button"
-                            onClick={handleSubmit}
+                            type="submit"
                             disabled={loading}
                             className="inline-flex cursor-pointer items-center justify-center bg-[#7d4f4a] px-8 py-4 text-sm uppercase tracking-[0.18em] text-white transition hover:bg-[#633e3a] disabled:cursor-not-allowed disabled:opacity-60"
                         >
                             {loading ? "Submitting..." : "Submit Request"}
                         </button>
-                    </div>
+                    </form>
                 )}
             </div>
         </section>

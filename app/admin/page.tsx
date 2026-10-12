@@ -22,6 +22,9 @@ export default function AdminPage() {
     const [loginError, setLoginError] = useState("");
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [loading, setLoading] = useState(false);
+    const [bookingToCancel, setBookingToCancel] = useState<Booking | null>(null);
+    const [cancellationNote, setCancellationNote] = useState("");
+    const [cancelling, setCancelling] = useState(false);
 
     useEffect(() => {
         const session = localStorage.getItem("admin_session");
@@ -100,6 +103,65 @@ export default function AdminPage() {
                     time: booking.time,
                 }),
             });
+        }
+    }
+
+    async function cancelBooking() {
+        if (!bookingToCancel || cancelling) return;
+
+        setCancelling(true);
+
+        const booking = bookingToCancel;
+
+        try {
+            const { error } = await supabase
+                .from("bookings")
+                .update({
+                    status: "Cancelled",
+                    cancellation_note: cancellationNote.trim() || null,
+                })
+                .eq("id", booking.id);
+
+            if (error) {
+                console.error("Error cancelling booking:", error);
+                return;
+            }
+
+            setBookings((prev) =>
+                prev.map((b) =>
+                    b.id === booking.id
+                        ? {
+                            ...b,
+                            status: "Cancelled",
+                            cancellation_note: cancellationNote.trim() || null,
+                        }
+                        : b
+                )
+            );
+
+            const response = await fetch("/api/cancel-booking", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    customerName: booking.customers.name,
+                    customerEmail: booking.customers.email,
+                    service: booking.service,
+                    date: booking.date,
+                    time: booking.time,
+                    cancellationNote: cancellationNote.trim(),
+                }),
+            });
+
+            if (!response.ok) {
+                console.error("Failed to send cancellation email");
+            }
+
+            setBookingToCancel(null);
+            setCancellationNote("");
+        } finally {
+            setCancelling(false);
         }
     }
 
@@ -197,22 +259,33 @@ export default function AdminPage() {
                                         </span>
 
                                         <div className="flex gap-2">
-                                            {booking.status !== "Confirmed" && (
-                                                <button
-                                                    onClick={() => updateStatus(booking, "Confirmed")}
-                                                    className="rounded-full bg-green-500 px-4 py-2 text-sm text-white transition hover:bg-green-600"
-                                                >
-                                                    Confirm
-                                                </button>
-                                            )}
-                                            {booking.status !== "Cancelled" && (
-                                                <button
-                                                    onClick={() => updateStatus(booking, "Cancelled")}
-                                                    className="rounded-full bg-red-400 px-4 py-2 text-sm text-white transition hover:bg-red-500"
-                                                >
-                                                    Cancel
-                                                </button>
-                                            )}
+                                            <button
+                                                onClick={() => updateStatus(booking, "Confirmed")}
+                                                disabled={booking.status !== "Pending"}
+                                                className={`rounded-full px-4 py-2 text-sm transition ${
+                                                    booking.status === "Pending"
+                                                        ? "bg-green-500 text-white hover:bg-green-600"
+                                                        : "cursor-not-allowed bg-gray-200 text-gray-400"
+                                                }`}
+                                            >
+                                                Confirm
+                                            </button>
+
+                                            <button
+                                                onClick={() => {
+                                                    setBookingToCancel(booking);
+                                                    setCancellationNote("");
+                                                }}
+                                                disabled={booking.status !== "Pending"}
+                                                className={`rounded-full px-4 py-2 text-sm transition ${
+                                                    booking.status === "Pending"
+                                                        ? "bg-red-400 text-white hover:bg-red-500"
+                                                        : "cursor-not-allowed bg-gray-200 text-gray-400"
+                                                }`}
+                                            >
+                                                Cancel
+                                            </button>
+
                                             <button
                                                 onClick={() => deleteBooking(booking.id)}
                                                 className="rounded-full border border-gray-200 px-4 py-2 text-sm text-gray-400 transition hover:border-red-300 hover:text-red-400"
@@ -227,6 +300,57 @@ export default function AdminPage() {
                     </div>
                 )}
             </div>
+            {bookingToCancel && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-6">
+                    <div className="w-full max-w-md rounded-3xl bg-white p-8 shadow-xl">
+                        <h2 className="text-2xl font-bold text-gray-800">
+                            Cancel Booking
+                        </h2>
+
+                        <p className="mt-2 text-sm text-gray-500">
+                            Cancelling {bookingToCancel.customers.name}&apos;s appointment
+                            for {bookingToCancel.service}.
+                        </p>
+
+                        <label className="mt-6 block text-sm font-medium text-gray-700">
+                            Note to customer
+                            <span className="ml-1 font-normal text-gray-400">
+                    (optional)
+                </span>
+                        </label>
+
+                        <textarea
+                            value={cancellationNote}
+                            onChange={(e) => setCancellationNote(e.target.value)}
+                            placeholder="e.g. Please rebook for 5 PM instead, or contact us for another available time."
+                            rows={4}
+                            className="mt-2 block w-full resize-none rounded-xl border border-pink-200 p-4 text-gray-800 placeholder:text-gray-400 focus:border-pink-500 focus:outline-none"
+                        />
+
+                        <div className="mt-6 flex justify-end gap-3">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setBookingToCancel(null);
+                                    setCancellationNote("");
+                                }}
+                                className="rounded-full border border-gray-200 px-5 py-2 text-sm text-gray-600 transition hover:bg-gray-50"
+                            >
+                                Back
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={cancelBooking}
+                                disabled={cancelling}
+                                className="rounded-full bg-red-500 px-5 py-2 text-sm text-white transition hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50"
+                            >
+                                {cancelling ? "Cancelling..." : "Cancel Booking"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     );
 }
